@@ -35,7 +35,7 @@ export const signin = async (req, res, next) => {
     }
 }
 
-export const google = async (req, res, nexy) => {
+export const google = async (req, res, next) => {
     try {
         const user = await User.findOne({ email: req.body.email })
         if (user) {
@@ -55,6 +55,15 @@ export const google = async (req, res, nexy) => {
 
         }
     } catch (error) {
+        next(error)
+    }
+}
 
+export const signout = async (req, res, next) => {
+    try {
+        res.clearCookie('access_token')
+        res.status(200).json("Sign out successfully")
+    } catch (error) {
+        next(error);
     }
 }
