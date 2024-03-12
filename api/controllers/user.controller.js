@@ -53,3 +53,16 @@ export const getUserListings = async (req, res, next) => {
         return next(errorHandler(403, 'You cannot view other users listings'));
     }
 }
+
+export const getUser = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id)
+
+        if (!user) return next(errorHandler(400, "No user found with that id"))
+        const { password: pass, ...rest } = user._doc
+        res.status(200).json(rest)
+    } catch (error) {
+        next(error)
+    }
+
+}

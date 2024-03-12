@@ -5,14 +5,18 @@ import SwiperCore from 'swiper'
 import { Navigation } from 'swiper/modules'
 import 'swiper/css/bundle'
 import { FaBath, FaBed, FaChair, FaMapMarkerAlt, FaParking, FaShare } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
+import Contact from '../components/Contact'
 
 function Listing() {
     SwiperCore.use([Navigation])
+    const { currentUser } = useSelector((state) => state.user)
     const params = useParams()
     const [listing, setListing] = useState(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
     const [copied, setCopied] = useState(false)
+    const [contact, setContact] = useState(false)
 
     useEffect(() => {
         const fetchListing = async () => {
@@ -55,7 +59,6 @@ function Listing() {
                     </Swiper>
                     <div className='fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer'
                         onClick={() => {
-                            console.log('holaaaa');
                             navigator.clipboard.writeText(window.location.href);
                             setCopied(true)
                             setTimeout(() => setCopied(false), 1500)
@@ -113,9 +116,16 @@ function Listing() {
                                 {listing.furnished ? 'Furnished' : 'Unfurnished'}
                             </li>
                         </ul>
+                        {
+                            currentUser && listing.userRef !== currentUser._id && !contact && <button
+                                onClick={() => setContact(true)} className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3'>
+                                Contact landlord
+                            </button>
+                        }
+                        {
+                            contact && <Contact listing={listing} />
+                        }
                     </div>
-
-
                 </>
             )}
         </main>
