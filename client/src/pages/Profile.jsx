@@ -171,7 +171,7 @@ function Profile() {
                     {
                         userListings.map((listing) => (
                             <div className="flex border rounded-lg p-3 justify-between items-center gap-4" key={listing._id}>
-                                <Link to={`/listing/$/${listing._id}`}>
+                                <Link to={`/listing/${listing._id}`}>
                                     <img src={listing.imageUrls[0]} alt="listing cover" className="h-16 w-16 object-contain " />
                                 </Link>
                                 <Link className="flex-1 text-slate-700 font-semiboldhover:underline truncate" to={`/listing/${listing._id}`}>
