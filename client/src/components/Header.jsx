@@ -29,12 +29,12 @@ function Header() {
             <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
                 <Link to="/">
                     <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-                        <span className="text-slate-500">Market</span>
+                        <span className="text-slate-500">Cozy</span>
                         <span className="text-slate-700">SoS</span>
                     </h1>
                 </Link>
 
-                <form onSubmit={handleSubmit} className="bg-slate-100 p-3 rounded-lg flex items-center">
+                <form onSubmit={handleSubmit} className="bg-slate-100 py-1 px-3 sm:p-3 rounded-lg flex items-center text-sm sm:text-base">
                     <input type="text" className="bg-transparent focus:outline-none w-24 sm:w-64" placeholder="Search for products..."
                         value={searchTerm}
                         onChange={e => setSearchTerm(e.target.value)}

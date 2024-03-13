@@ -151,14 +151,14 @@ function CreateListing() {
                             <p>Baths</p>
                         </div>
                         <div className="flex items-center gap-2">
-                            <input className="p-3 border border-gray-300 rounded-lg" type="number" id="regularPrice" required min='50' max='100000' onChange={handleChange} value={formData.regularPrice} />
+                            <input className="p-3 border border-gray-300 rounded-lg" type="number" id="regularPrice" required min='50' max='10000000' onChange={handleChange} value={formData.regularPrice} />
                             <div className="flex flex-col items-center">
                                 <p>Regular Price</p>
                                 <span className="text-xs">($ / month)</span>
                             </div>
                         </div>
                         {formData.offer && <div className="flex items-center gap-2">
-                            <input className="p-3 border border-gray-300 rounded-lg" type="number" id="discountPrice" required min='0' max='100000' onChange={handleChange} value={formData.discountPrice} />
+                            <input className="p-3 border border-gray-300 rounded-lg" type="number" id="discountPrice" required min='0' max='10000000' onChange={handleChange} value={formData.discountPrice} />
                             <div className="flex flex-col items-center">
                                 <p>Discount Price</p>
                                 <span className="text-xs">($ / month)</span>
