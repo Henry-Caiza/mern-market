@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { app } from '../firebase'
 import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess } from "../redux/user/userSlice"
+import { Input } from "@nextui-org/react";
 import { Link } from 'react-router-dom'
 
 function Profile() {
@@ -136,7 +137,7 @@ function Profile() {
                     setFileUploadError(false)
                 }}
                     type="file" ref={fileRef} hidden accept="image/*" />
-                <img onClick={() => fileRef.current.click()} src={formData?.avatar || currentUser.avatar} alt="img profile" className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2" />
+                <img onClick={() => fileRef.current.click()} src={formData?.avatar || currentUser.avatar} alt="img profile" className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2 border-2 " />
                 <p className="text-sm self-center">
                     {fileUploadError ? <span className="text-red-700">Error Image Upload (image must be less than 2mb)</span> : filePerc > 0 && filePerc < 100 ? <span className="text-slate-700">
                         {`Uploading ${filePerc}%`}
@@ -148,11 +149,11 @@ function Profile() {
                             : ""
                     }
                 </p>
-                <input type="text" placeholder="username" id="username" className="p-3 border rounded-lg" defaultValue={currentUser.username} onChange={handleChange} />
-                <input type="email" placeholder="email" id="email" className="p-3 border rounded-lg" defaultValue={currentUser.email} onChange={handleChange} />
-                <input type="password" placeholder="password" id="password" className="p-3 border rounded-lg" onChange={handleChange} />
-                <button disabled={loading} className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80">{loading ? 'Loading...' : 'Update'}</button>
-                <Link className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95" to='/create-listing'>
+                <Input type="text" id="username" label="Username" defaultValue={currentUser.username} onChange={handleChange} variant="bordered" />
+                <Input type="email" id="email" label="Email" defaultValue={currentUser.email} onChange={handleChange} variant="bordered" />
+                <Input type="password" id="password" label="Password" onChange={handleChange} variant="bordered" />
+                <button disabled={loading} className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80 transition">{loading ? 'Loading...' : 'Update'}</button>
+                <Link className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95 transition" to='/create-listing'>
                     Create Listing
                 </Link>
             </form>

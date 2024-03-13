@@ -2,6 +2,7 @@ import { FaSearch } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
+import { Input } from "@nextui-org/react";
 
 function Header() {
     const { currentUser } = useSelector(state => state.user)
@@ -34,14 +35,17 @@ function Header() {
                     </h1>
                 </Link>
 
-                <form onSubmit={handleSubmit} className="bg-slate-100 py-1 px-3 sm:p-3 rounded-lg flex items-center text-sm sm:text-base">
-                    <input type="text" className="bg-transparent focus:outline-none w-24 sm:w-64" placeholder="Search for products..."
+                <form onSubmit={handleSubmit} className='w-1/3'>
+                    <Input type="text" placeholder="Search for products..."
                         value={searchTerm}
+
                         onChange={e => setSearchTerm(e.target.value)}
+                        startContent={
+                            <button>
+                                <FaSearch className='text-slate-600' />
+                            </button>
+                        }
                     />
-                    <button>
-                        <FaSearch className='text-slate-600' />
-                    </button>
                 </form>
                 <ul className='flex gap-4'>
                     <Link to='/'>
@@ -50,7 +54,11 @@ function Header() {
                     <Link to='/about'>
                         <li className='hidden sm:inline text-slate-700 hover:underline'>About</li>
                     </Link>
-
+                    {
+                        currentUser && <Link to='/listings'>
+                            <li className='hidden sm:inline text-slate-700 hover:underline'>Listings</li>
+                        </Link>
+                    }
                     <Link to={currentUser ? '/profile' : '/sign-in'}>
                         {
                             currentUser ? <img src={currentUser.avatar} alt="" className='rounded-full h-7 w-7 object-cover' /> : <li className='stext-slate-700 hover:underline'>Sign in</li>
