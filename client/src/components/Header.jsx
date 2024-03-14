@@ -31,7 +31,7 @@ function Header() {
         <header className="bg-gradient-to-b from-primary/90 to-primary  shadow-md">
             <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
                 <Link to="/">
-                    <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
+                    <h1 className="font-bold text-base sm:text-xl flex flex-wrap">
                         <span className="text-slate-200">Cozy</span>
                         <span className="text-slate-900">SoS</span>
                     </h1>
@@ -54,11 +54,11 @@ function Header() {
                         <li className={`hidden sm:inline ${location.pathname === '/' ? 'text-slate-100' : 'text-slate-300'}  hover:underline`}>Home</li>
                     </Link>
                     <Link to='/about'>
-                        <li className={`inline ${location.pathname === '/about' ? 'text-slate-100' : 'text-slate-300'} hover:underline`}>About</li>
+                        <li className={`inline text-sm sm:text-base ${location.pathname === '/about' ? 'text-slate-100' : 'text-slate-300'} hover:underline`}>About</li>
                     </Link>
                     {
                         currentUser && <Link to='/listings'>
-                            <li className={`inline ${location.pathname === '/listings' ? 'text-slate-100' : 'text-slate-300'} hover:underline`}>Listings</li>
+                            <li className={`inline text-sm sm:text-base ${location.pathname === '/listings' ? 'text-slate-100' : 'text-slate-300'} hover:underline`}>Listings</li>
                         </Link>
                     }
                     <Link to={currentUser ? '/profile' : '/sign-in'}>

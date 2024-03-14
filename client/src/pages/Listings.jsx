@@ -42,7 +42,7 @@ function Listings() {
     }
     return (
         <main>
-            <div className='px-3 max-w-6xl mx-auto gap-6 p-12 md:px-20 md:py-12'>
+            <div className='px-3 max-w-6xl mx-auto gap-6 py-12 md:px-20 md:py-12'>
                 <div className="flex items-center justify-between mb-2">
                     <h1 className='text-3xl font-bold mb-4 text-slate-800'>My Listings</h1>
                     <Link className="border-2 border-green-700 text-green-700 h-10 py-2 px-3 flex items-center rounded-full uppercase text-center hover:bg-green-700 hover:text-white transition" to='/create-listing'>

@@ -127,8 +127,8 @@ function Profile() {
                 <button disabled={loading} className="bg-slate-700 text-white rounded-full p-3 uppercase hover:opacity-95 disabled:opacity-80 transition">{loading ? 'Loading...' : 'Update'}</button>
             </form>
             <div className="flex justify-between mt-5">
-                <span onClick={handleDeleteUser} className="border-2 border-red-700 py-2 px-3 rounded-full text-red-700 cursor-pointer hover:bg-red-700 hover:text-white transition flex items-center justify-center h-10">Delete account</span>
-                <span className="text-white cursor-pointer bg-red-700 py-2 px-3 rounded-full hover:bg-transparent hover:text-red-700 border-2 border-red-700 transition flex items-center justify-center h-10" onClick={handleSignout}>Sign out</span>
+                <span onClick={handleDeleteUser} className="border-2 border-red-700 py-2 px-4 rounded-full text-red-700 cursor-pointer hover:bg-red-700 hover:text-white transition flex items-center justify-center h-10">Delete account</span>
+                <span className="text-white cursor-pointer bg-red-700 py-2 px-4 rounded-full hover:bg-transparent hover:text-red-700 border-2 border-red-700 transition flex items-center justify-center h-10" onClick={handleSignout}>Sign out</span>
             </div>
             <p className="text-red-700 mt-5">{error ? error : ''}</p>
             <p className="text-green-700 mt-5">{updateSuccess ? 'User is updated successfully!' : ''}</p>

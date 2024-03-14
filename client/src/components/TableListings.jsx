@@ -28,7 +28,7 @@ function TableListings({ userListings, handleListingDelete }) {
                             src={listing.imageUrls[0]}
                             isZoomed
                             classNames={
-                                { img: 'h-16' }
+                                { img: 'h-10 md:h-16' }
                             }
                         />
                     </Link>
