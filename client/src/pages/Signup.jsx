@@ -43,10 +43,10 @@ function Signup() {
     }
 
     return (
-        <div className='w-full h-screen mx-auto flex  bg-[url("https://i.imgur.com/rYknvdE.png")] bg-no-repeat bg-content1'>
-            <div className='w-8/12'>
+        <div className='w-full h-screen mx-auto flex  bg-[url("https://i.imgur.com/rYknvdE.png")] bg-no-repeat bg-cover bg-center'>
+            <div className='md:w-8/12 hidden md:flex'>
             </div>
-            <div className='w-5/12 bg-gray-200/50 backdrop-blur-sm px-16'>
+            <div className='w-full md:w-5/12  bg-gray-200/50 backdrop-blur-sm px-4 md:px-8 lg:px-16'>
                 <h1 className='text-3xl text-gray-700 text-center font-bold mt-12 mb-4 '>Create your <br />Account</h1>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
                     <Input isRequired type='text' label='Username' variant='underlined' id='username' onChange={handleChange} />
