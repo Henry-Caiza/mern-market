@@ -1,6 +1,6 @@
 export default function About() {
     return (
-        <main className='bg-[url("https://i.imgur.com/n3m4TqX.jpeg")] bg-cover p-5'>
+        <main className='bg-[url("https://i.imgur.com/n3m4TqX.jpeg")] h-screen bg-cover p-5'>
             <div className='bg-gray-50/50 backdrop-blur-md max-w-6xl mx-auto gap-6 px-6 md:px-20 py-7 rounded-xl'>
                 <h1 className='text-3xl font-bold mb-4 text-slate-800'>About CozySoS</h1>
                 <p className='mb-4 text-slate-800'>CozySoS stands as a premier real estate agency, specializing in facilitating property transactions within the most coveted neighborhoods. Our seasoned team of agents is devoted to delivering exceptional service, ensuring a seamless experience whether you're buying, selling, or renting.</p>
