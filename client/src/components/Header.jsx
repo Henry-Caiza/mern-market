@@ -63,7 +63,7 @@ function Header() {
                     }
                     <Link to={currentUser ? '/profile' : '/sign-in'}>
                         {
-                            currentUser ? <img src={currentUser.avatar} alt="" className='rounded-full border border-slate-300 h-7 w-7 object-cover' /> : <li className={`text-slate-200 ${location.pathname === '/sign-in' || location.pathname === '/sign-up' ? 'text-slate-100' : 'text-slate-300'}  hover:underline`}>Sign in</li>
+                            currentUser ? <img src={currentUser.avatar} alt="" className='rounded-full border border-slate-300 h-7 w-7 object-cover' /> : <li className={` text-sm sm:text-base ${location.pathname === '/sign-in' || location.pathname === '/sign-up' ? 'text-slate-100' : 'text-slate-300'}  hover:underline`}>Sign in</li>
                         }
 
                     </Link>
