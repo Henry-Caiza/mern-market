@@ -1,9 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Swiper, SwiperSlide } from "swiper/react"
-import SwiperCore from 'swiper'
-import { Navigation } from 'swiper/modules'
-import 'swiper/css/bundle'
 import { FaBath, FaBed, FaChair, FaMapMarkerAlt, FaParking, FaShare } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import Contact from '../components/Contact'
@@ -13,7 +9,6 @@ import { createArrImages } from '../utils/helpers'
 import "react-image-gallery/styles/css/image-gallery.css";
 
 function Listing() {
-    SwiperCore.use([Navigation])
     const { currentUser } = useSelector((state) => state.user)
     const params = useParams()
     const [listing, setListing] = useState(null)
@@ -55,21 +50,13 @@ function Listing() {
     } catch (error) {
         console.log(error)
     }
-    //console.log(listing.imageUrls);
+
     return (
         <main>
             {loading && <p className='text-center my-7 text-2xl'>Loading...</p>}
             {error && <p className='text-center my-7 text-2xl'>Something went wrong</p>}
             {listing && !loading && !error && (
                 <>
-                    {/* <Swiper navigation={true}>
-                        {listing.imageUrls.map((url) => (
-                            <SwiperSlide key={url}>
-                                <div className='h-[450px]' style={{ background: `url(${url}) center no-repeat`, backgroundSize: 'cover' }}>
-                                </div>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper> */}
                     <ImageGallery items={images} showPlayButton={false}
                         showFullscreenButton={false}
                         showThumbnails={true}
