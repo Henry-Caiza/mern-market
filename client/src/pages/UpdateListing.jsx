@@ -3,6 +3,8 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/
 import { app } from '../firebase'
 import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
+import { Input, Textarea } from "@nextui-org/react"
+import { IoTrashBinOutline } from "react-icons/io5"
 
 function UpdateListing() {
     const { currentUser } = useSelector(state => state.user)
@@ -132,9 +134,9 @@ function UpdateListing() {
             <h1 className="text-3xl font-semibold text-center my-7">Update Listing</h1>
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
                 <div className="flex flex-col gap-4 flex-1">
-                    <input type="text" placeholder="Name" className="border p-3 rounded-lg" id="name" maxLength='62' minLength='10' required onChange={handleChange} value={formData.name} />
-                    <textarea type="text" placeholder="Description" className="border p-3 rounded-lg" id="description" required onChange={handleChange} value={formData.description} />
-                    <input type="text" placeholder="Address" className="border p-3 rounded-lg" id="address" required onChange={handleChange} value={formData.address} />
+                    <Input isRequired type="text" label="Name" variant="bordered" id="name" minLength='6' required onChange={handleChange} value={formData.name} />
+                    <Textarea isRequired type="text" label="Description" variant="bordered" id="description" required onChange={handleChange} value={formData.description} />
+                    <Input isRequired type="text" label="Address" variant="bordered" id="address" required onChange={handleChange} value={formData.address} />
                     <div className="flex gap-6 flex-wrap">
                         <div className="flex gap-2">
                             <input type="checkbox" id='sale' className="w-5" onChange={handleChange} checked={formData.type === 'sale'} />
@@ -159,22 +161,22 @@ function UpdateListing() {
                     </div>
                     <div className="flex flex-wrap gap-6">
                         <div className="flex items-center gap-2">
-                            <input className="p-3 border border-gray-300 rounded-lg" type="number" id="bedrooms" min='1' max='10' required onChange={handleChange} value={formData.bedrooms} />
+                            <Input type="number" id="bedrooms" variant="bordered" min='1' max='10' required onChange={handleChange} value={formData.bedrooms} />
                             <p>Beds</p>
                         </div>
                         <div className="flex items-center gap-2">
-                            <input className="p-3 border border-gray-300 rounded-lg" type="number" id="bathrooms" min='1' max='10' required onChange={handleChange} value={formData.bathrooms} />
+                            <Input type="number" id="bathrooms" variant="bordered" min='1' max='10' required onChange={handleChange} value={formData.bathrooms} />
                             <p>Baths</p>
                         </div>
                         <div className="flex items-center gap-2">
-                            <input className="p-3 border border-gray-300 rounded-lg" type="number" id="regularPrice" required min='50' max='10000000' onChange={handleChange} value={formData.regularPrice} />
+                            <Input type="number" id="regularPrice" variant="bordered" required min='50' max='10000000' onChange={handleChange} value={formData.regularPrice} />
                             <div className="flex flex-col items-center">
                                 <p>Regular Price</p>
                                 <span className="text-xs">($ / month)</span>
                             </div>
                         </div>
                         {formData.offer && <div className="flex items-center gap-2">
-                            <input className="p-3 border border-gray-300 rounded-lg" type="number" id="discountPrice" required min='0' max='10000000' onChange={handleChange} value={formData.discountPrice} />
+                            <Input type="number" id="discountPrice" variant="bordered" required min='0' max='10000000' onChange={handleChange} value={formData.discountPrice} />
                             <div className="flex flex-col items-center">
                                 <p>Discount Price</p>
                                 <span className="text-xs">($ / month)</span>
@@ -187,20 +189,20 @@ function UpdateListing() {
                 <div className="flex flex-col flex-1 gap-4">
                     <p className="font-semibold">Images:
                         <span className="font-normal text-gray-600 ml-2">The first image will be the cover (max 6)</span></p>
-                    <div className="flex gap-4">
-                        <input onChange={(e) => setFiles(e.target.files)} className="p-3 border border-gray-300 rounded w-full" type="file" id='images' accept='image/*' multiple />
-                        <button disabled={uploading} type="button" onClick={handleImageSubmit} className="p-3 text-green-700 border-green-700 rounded uppercase hover:shadow-lg border disabled:opacity-80">{uploading ? 'Uploading...' : 'Upload'}</button>
+                    <div className="flex gap-4 items-center">
+                        <input onChange={(e) => setFiles(e.target.files)} className="p-3 border-2 border-gray-200 rounded-xl w-full" type="file" id='images' accept='image/*' multiple />
+                        <button disabled={uploading} type="button" onClick={handleImageSubmit} className="py-2 px-3 h-10 transition text-green-700 border-green-700 rounded-full uppercase hover:shadow-lg hover:bg-green-700 hover:text-white border disabled:opacity-80">{uploading ? 'Uploading...' : 'Upload'}</button>
                     </div>
                     <p className="text-red-700 text-sm">{imageUploadError && imageUploadError}</p>
                     {
                         formData.imageUrls.length > 0 && formData.imageUrls.map((url, index) => (
-                            <div key={url} className="flex justify-between p-3 border items-center">
+                            <div key={url} className="flex justify-between rounded-xl p-3 border-2 items-center">
                                 <img src={url} alt="listing image" className="w-20 h-20 object-contain rounded-lg" />
-                                <button type="button" onClick={() => handleRemoveImage(index)} className="p-3 text-red-700 rounded-lg uppercase hover:opacity-75">Delete</button>
+                                <button type="button" onClick={() => handleRemoveImage(index)} className="p-2  text-red-700  uppercase hover:opacity-75 flex"> <IoTrashBinOutline className="h-6 w-6" /></button>
                             </div>
                         ))
                     }
-                    <button disabled={loading || uploading} className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80">{loading ? 'Updating...' : 'Update Listing'}</button>
+                    <button disabled={loading || uploading} className="p-3 bg-slate-700 text-white rounded-full transition uppercase hover:opacity-95 disabled:opacity-80">{loading ? 'Updating...' : 'Update Listing'}</button>
                     {
                         error && <p className="text-red-700 text-sm">{error}</p>
                     }

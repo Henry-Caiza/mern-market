@@ -3,8 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { app } from '../firebase'
 import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess } from "../redux/user/userSlice"
-import { Input } from "@nextui-org/react";
-import { Link } from 'react-router-dom'
+import { Input } from "@nextui-org/react"
 
 function Profile() {
     const { currentUser, loading, error } = useSelector((state) => state.user)
@@ -100,36 +99,9 @@ function Profile() {
             dispatch(signOutUserFailure(error.message))
         }
     }
-    const handleShowListings = async () => {
-        try {
-            setShowListingsError(false)
-            const res = await fetch(`/api/user/listings/${currentUser._id}`)
-            const data = await res.json()
-            if (data.success === false) {
-                setShowListingsError(true)
-                return
-            }
-            setUserListings(data)
-        } catch (error) {
-            setShowListingsError(true)
-        }
-    }
 
-    const handleListingDelete = async (listingId) => {
-        try {
-            const res = await fetch(`/api/listing/delete/${listingId}`, { method: 'DELETE' })
-            const data = await res.json()
-            if (data.success === false) {
-                console.log(data.message)
-                return
-            }
-            setUserListings((prev) => prev.filter((listing) => listing._id !== listingId))
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
     return (
-        <div className="p-3 max-w-lg mx-auto">
+        <main className="p-3 max-w-lg mx-auto">
             <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <input onChange={(e) => {
@@ -149,49 +121,18 @@ function Profile() {
                             : ""
                     }
                 </p>
-                <Input type="text" id="username" label="Username" defaultValue={currentUser.username} onChange={handleChange} variant="bordered" />
-                <Input type="email" id="email" label="Email" defaultValue={currentUser.email} onChange={handleChange} variant="bordered" />
+                <Input isRequired type="text" id="username" label="Username" defaultValue={currentUser.username} onChange={handleChange} variant="bordered" />
+                <Input isRequired type="email" id="email" label="Email" defaultValue={currentUser.email} onChange={handleChange} variant="bordered" />
                 <Input type="password" id="password" label="Password" onChange={handleChange} variant="bordered" />
-                <button disabled={loading} className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80 transition">{loading ? 'Loading...' : 'Update'}</button>
-                <Link className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95 transition" to='/create-listing'>
-                    Create Listing
-                </Link>
+                <button disabled={loading} className="bg-slate-700 text-white rounded-full p-3 uppercase hover:opacity-95 disabled:opacity-80 transition">{loading ? 'Loading...' : 'Update'}</button>
             </form>
             <div className="flex justify-between mt-5">
-                <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer">Delete account</span>
-                <span className="text-red-700 cursor-pointer" onClick={handleSignout}>Sign out</span>
+                <span onClick={handleDeleteUser} className="border-2 border-red-700 py-2 px-3 rounded-full text-red-700 cursor-pointer hover:bg-red-700 hover:text-white transition flex items-center justify-center h-10">Delete account</span>
+                <span className="text-white cursor-pointer bg-red-700 py-2 px-3 rounded-full hover:bg-transparent hover:text-red-700 border-2 border-red-700 transition flex items-center justify-center h-10" onClick={handleSignout}>Sign out</span>
             </div>
             <p className="text-red-700 mt-5">{error ? error : ''}</p>
             <p className="text-green-700 mt-5">{updateSuccess ? 'User is updated successfully!' : ''}</p>
-            <button onClick={handleShowListings} className="text-green-700 w-full">Show Listings</button>
-            <p className="text-red-700 mt-5">{showListingsError ? 'Error showing listings' : ''}</p>
-            {
-                userListings && userListings.length > 0 &&
-                <div className="flex flex-col gap-4">
-                    <h1 className="text-center mt-7 text-2xl font-semibold">Your Listings</h1>
-                    {
-                        userListings.map((listing) => (
-                            <div className="flex border rounded-lg p-3 justify-between items-center gap-4" key={listing._id}>
-                                <Link to={`/listing/${listing._id}`}>
-                                    <img src={listing.imageUrls[0]} alt="listing cover" className="h-16 w-16 object-contain " />
-                                </Link>
-                                <Link className="flex-1 text-slate-700 font-semiboldhover:underline truncate" to={`/listing/${listing._id}`}>
-                                    <p className="">{listing.name}</p>
-                                </Link>
-                                <div className="flex flex-col items-center">
-                                    <button
-                                        onClick={() => handleListingDelete(listing._id)}
-                                        className="text-red-700">Delete</button>
-                                    <Link to={`/update-listing/${listing._id}`}>
-                                        <button
-                                            className="text-green-700">Edit</button>
-                                    </Link>
-                                </div>
-                            </div>
-                        ))}
-                </div>
-            }
-        </div>
+        </main>
     )
 }
 

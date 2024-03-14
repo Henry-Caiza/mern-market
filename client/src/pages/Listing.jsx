@@ -7,6 +7,10 @@ import 'swiper/css/bundle'
 import { FaBath, FaBed, FaChair, FaMapMarkerAlt, FaParking, FaShare } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import Contact from '../components/Contact'
+import ImageGallery from "react-image-gallery"
+import { createArrImages } from '../utils/helpers'
+
+import "react-image-gallery/styles/css/image-gallery.css";
 
 function Listing() {
     SwiperCore.use([Navigation])
@@ -17,6 +21,7 @@ function Listing() {
     const [error, setError] = useState(false)
     const [copied, setCopied] = useState(false)
     const [contact, setContact] = useState(false)
+    let images = []
 
     useEffect(() => {
         const fetchListing = async () => {
@@ -43,21 +48,38 @@ function Listing() {
         }
         fetchListing()
     }, [params.listingId])
+
+
+    try {
+        images = createArrImages(listing.imageUrls)
+    } catch (error) {
+        console.log(error)
+    }
+    //console.log(listing.imageUrls);
     return (
         <main>
             {loading && <p className='text-center my-7 text-2xl'>Loading...</p>}
             {error && <p className='text-center my-7 text-2xl'>Something went wrong</p>}
             {listing && !loading && !error && (
                 <>
-                    <Swiper navigation={true}>
+                    {/* <Swiper navigation={true}>
                         {listing.imageUrls.map((url) => (
                             <SwiperSlide key={url}>
                                 <div className='h-[450px]' style={{ background: `url(${url}) center no-repeat`, backgroundSize: 'cover' }}>
                                 </div>
                             </SwiperSlide>
                         ))}
-                    </Swiper>
-                    <div className='fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer'
+                    </Swiper> */}
+                    <ImageGallery items={images} showPlayButton={false}
+                        showFullscreenButton={false}
+                        showThumbnails={true}
+                        showBullets={false}
+                        showNav={true}
+                        autoPlay={true}
+
+                        slideInterval={7000}
+                        slideDuration={1000} />
+                    <div className='fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer transition-all'
                         onClick={() => {
                             navigator.clipboard.writeText(window.location.href);
                             setCopied(true)
@@ -118,7 +140,7 @@ function Listing() {
                         </ul>
                         {
                             currentUser && listing.userRef !== currentUser._id && !contact && <button
-                                onClick={() => setContact(true)} className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3'>
+                                onClick={() => setContact(true)} className='bg-slate-700 text-white rounded-full uppercase hover:opacity-95 p-3'>
                                 Contact landlord
                             </button>
                         }

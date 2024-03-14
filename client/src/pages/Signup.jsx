@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import OAuth from '../components/OAuth';
+import OAuth from '../components/OAuth'
+import { Input } from "@nextui-org/react"
+
 
 function Signup() {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' })
@@ -41,22 +43,27 @@ function Signup() {
     }
 
     return (
-        <div className='p-3 max-w-lg mx-auto'>
-            <h1 className='text-3xl text-center font-semibold my-7'>Sign Up</h1>
-            <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-                <input type='text' placeholder='username' className='border p-3 rounded-lg' id='username' onChange={handleChange} />
-                <input type='email' placeholder='email' className='border p-3 rounded-lg' id='email' onChange={handleChange} />
-                <input type='password' placeholder='password' className='border p-3 rounded-lg' id='password' onChange={handleChange} />
-                <button disabled={loading} className='bg-slate-700 text-white  p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{loading ? 'Loading...' : 'Sign up'}</button>
-                <OAuth />
-            </form>
-            <div className='flex gap-2 mt-5'>
-                <p>Have an account?</p>
-                <Link to='/sign-in'>
-                    <span className='text-blue-700'>Sign in</span>
-                </Link>
+        <div className='w-full h-screen mx-auto flex  bg-[url("https://i.imgur.com/rYknvdE.png")] bg-no-repeat bg-content1'>
+            <div className='w-8/12'>
             </div>
-            {error && <p className='text-red-500 mt-5'>{error}</p>}
+            <div className='w-5/12 bg-gray-200/50 backdrop-blur-sm px-16'>
+                <h1 className='text-3xl text-gray-700 text-center font-bold mt-12 mb-4 '>Create your <br />Account</h1>
+                <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+                    <Input isRequired type='text' label='Username' variant='underlined' id='username' onChange={handleChange} />
+                    <Input isRequired type='email' label='Email' variant='underlined' id='email' onChange={handleChange} />
+                    <Input isRequired type='password' label='Password' variant='underlined' id='password' onChange={handleChange} />
+                    <button disabled={loading} className='bg-slate-700 text-white  p-3 rounded-full uppercase hover:opacity-95 disabled:opacity-80 transition mt-6'>{loading ? 'Loading...' : 'Sign up'}</button>
+                    <OAuth />
+                </form>
+                <div className='flex gap-2 mt-5'>
+                    <p className='text-gray-700'>Have an account?</p>
+                    <Link to='/sign-in'>
+                        <span className='text-black'>Sign in</span>
+                    </Link>
+                </div>
+                {error && <p className='text-red-500 mt-5'>{error}</p>}
+            </div>
+
         </div>
     )
 }

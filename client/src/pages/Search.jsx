@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ListingItem from '../components/ListingItem'
+import { Input } from "@nextui-org/react"
+import { Select, SelectItem } from "@nextui-org/react"
 
 export default function Search() {
     const navigate = useNavigate()
@@ -17,6 +19,7 @@ export default function Search() {
     const [loading, setLoading] = useState(false)
     const [listings, setListings] = useState([])
     const [showMore, setShowMore] = useState(false)
+    const [value, setValue] = useState([]);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search)
@@ -67,6 +70,7 @@ export default function Search() {
     }, [location.search])
 
     const handleChange = (e) => {
+
         if (
             e.target.id === 'all' ||
             e.target.id === 'rent' ||
@@ -91,7 +95,7 @@ export default function Search() {
             });
         }
 
-        if (e.target.id === 'sort_order') {
+        if (e.target.name === 'sort_order') {
             const sort = e.target.value.split('_')[0] || 'created_at';
 
             const order = e.target.value.split('_')[1] || 'desc';
@@ -129,17 +133,18 @@ export default function Search() {
     };
     return (
         <div className='flex flex-col md:flex-row'>
-            <div className='p-7  border-b-2 md:border-r-2 md:min-h-screen'>
+            <div className='p-7 border-b-2 md:border-r-2 md:min-h-screen'>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
                     <div className='flex items-center gap-2'>
                         <label className='whitespace-nowrap font-semibold'>
                             Search Term:
                         </label>
-                        <input
+                        <Input
                             type='text'
                             id='searchTerm'
                             placeholder='Search...'
-                            className='border rounded-lg p-3 w-full'
+                            aria-label='search'
+                            variant='bordered'
                             value={sidebardata.searchTerm}
                             onChange={handleChange}
                         />
@@ -150,6 +155,7 @@ export default function Search() {
                             <input
                                 type='checkbox'
                                 id='all'
+                                aria-label='all'
                                 className='w-5'
                                 onChange={handleChange}
                                 checked={sidebardata.type === 'all'}
@@ -159,6 +165,7 @@ export default function Search() {
                         <div className='flex gap-2'>
                             <input
                                 type='checkbox'
+                                aria-label='rent'
                                 id='rent'
                                 className='w-5'
                                 onChange={handleChange}
@@ -170,6 +177,7 @@ export default function Search() {
                             <input
                                 type='checkbox'
                                 id='sale'
+                                aria-label='sale'
                                 className='w-5'
                                 onChange={handleChange}
                                 checked={sidebardata.type === 'sale'}
@@ -180,6 +188,7 @@ export default function Search() {
                             <input
                                 type='checkbox'
                                 id='offer'
+                                aria-label='offer'
                                 className='w-5'
                                 onChange={handleChange}
                                 checked={sidebardata.offer}
@@ -193,6 +202,7 @@ export default function Search() {
                             <input
                                 type='checkbox'
                                 id='parking'
+                                aria-label='parking'
                                 className='w-5'
                                 onChange={handleChange}
                                 checked={sidebardata.parking}
@@ -203,6 +213,7 @@ export default function Search() {
                             <input
                                 type='checkbox'
                                 id='furnished'
+                                aria-label='furnished'
                                 className='w-5'
                                 onChange={handleChange}
                                 checked={sidebardata.furnished}
@@ -212,19 +223,21 @@ export default function Search() {
                     </div>
                     <div className='flex items-center gap-2'>
                         <label className='font-semibold'>Sort:</label>
-                        <select
+                        <Select
                             onChange={handleChange}
-                            defaultValue={'created_at_desc'}
+                            defaultSelectedKeys={['regularPrice_desc']}
                             id='sort_order'
-                            className='border rounded-lg p-3'
+                            name='sort_order'
+                            aria-label='sort_order'
+                            variant='bordered'
                         >
-                            <option value='regularPrice_desc'>Price high to low</option>
-                            <option value='regularPrice_asc'>Price low to hight</option>
-                            <option value='createdAt_desc'>Latest</option>
-                            <option value='createdAt_asc'>Oldest</option>
-                        </select>
+                            <SelectItem key='regularPrice_desc' value='regularPrice_desc'>Price high to low</SelectItem>
+                            <SelectItem key='regularPrice_asc' value='regularPrice_asc'>Price low to hight</SelectItem >
+                            <SelectItem key='createdAt_desc' value='createdAt_desc'>Latest</SelectItem>
+                            <SelectItem key='createdAt_asc' value='createdAt_asc'>Oldest</SelectItem>
+                        </Select>
                     </div>
-                    <button className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95'>
+                    <button className='bg-slate-700 text-white p-3 rounded-full transition uppercase hover:opacity-95'>
                         Search
                     </button>
                 </form>
@@ -233,7 +246,7 @@ export default function Search() {
                 <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-5'>
                     Listing results:
                 </h1>
-                <div className='p-7 flex flex-wrap gap-4'>
+                <div className='p-7 grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4'>
                     {!loading && listings.length === 0 && (
                         <p className='text-xl text-slate-700'>No listing found!</p>
                     )}
