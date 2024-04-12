@@ -4,6 +4,7 @@ import { app } from '../firebase'
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { Input, Textarea } from "@nextui-org/react"
+import { createListing } from "../api/listing"
 
 
 function CreateListing() {
@@ -94,14 +95,7 @@ function CreateListing() {
             if (+formData.regularPrice < +formData.discountPrice) return setError('Discount price must be lower  than regular price!')
             setLoading(true)
             setError(false)
-            const res = await fetch('/api/listing/create', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...formData,
-                    userRef: currentUser._id
-                })
-            })
+            const res = await createListing(formData, currentUser._id)
             const data = await res.json()
             setLoading(false)
             if (data.success === false) {

@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { signInSuccess } from '../redux/user/userSlice'
 import { useNavigate } from 'react-router-dom'
 import { FcGoogle } from "react-icons/fc"
+import { loginGoogleRequest } from '../api/auth'
 
 function OAuth() {
     const dispatch = useDispatch()
@@ -14,11 +15,7 @@ function OAuth() {
             const provider = new GoogleAuthProvider()
             const auth = getAuth(app)
             const result = await signInWithPopup(auth, provider)
-            const res = await fetch('/api/auth/google', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: result.user.displayName, email: result.user.email, photo: result.user.photoURL }),
-            })
+            const res = await loginGoogleRequest(result)
             const data = await res.json()
             dispatch(signInSuccess(data))
             navigate('/')

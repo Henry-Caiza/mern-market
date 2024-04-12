@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice'
 import OAuth from '../components/OAuth'
 import { Input } from "@nextui-org/react"
+import { loginRequest } from '../api/auth';
 
 
 function Signin() {
@@ -23,13 +24,8 @@ function Signin() {
         e.preventDefault()
         try {
             dispatch(signInStart())
-            const res = await fetch('/api/auth/signin', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            })
+            const res = await loginRequest(formData)
             const data = await res.json()
-            console.log(data);
             if (data.success === false) {
                 dispatch(signInFailure(data.message))
                 return

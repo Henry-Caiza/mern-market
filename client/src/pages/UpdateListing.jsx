@@ -5,6 +5,7 @@ import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { Input, Textarea } from "@nextui-org/react"
 import { IoTrashBinOutline } from "react-icons/io5"
+import { updateListing } from "../api/listing"
 
 function UpdateListing() {
     const { currentUser } = useSelector(state => state.user)
@@ -110,14 +111,7 @@ function UpdateListing() {
             if (+formData.regularPrice < +formData.discountPrice) return setError('Discount price must be lower  than regular price!')
             setLoading(true)
             setError(false)
-            const res = await fetch(`/api/listing/update/${params.listingId}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...formData,
-                    userRef: currentUser._id
-                })
-            })
+            const res = await updateListing(formData, currentUser._id, params.listingId)
             const data = await res.json()
             setLoading(false)
             if (data.success === false) {

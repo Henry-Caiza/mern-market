@@ -4,6 +4,7 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/
 import { app } from '../firebase'
 import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess } from "../redux/user/userSlice"
 import { Input } from "@nextui-org/react"
+import { deleteUser, updateUser } from "../api/user"
 
 function Profile() {
     const { currentUser, loading, error } = useSelector((state) => state.user)
@@ -13,8 +14,6 @@ function Profile() {
     const [fileUploadError, setFileUploadError] = useState(false)
     const [formData, setFormData] = useState({})
     const [updateSuccess, setUpdateSuccess] = useState(false)
-    const [showListingsError, setShowListingsError] = useState(false)
-    const [userListings, setUserListings] = useState([])
 
     const dispatch = useDispatch()
 
@@ -51,13 +50,7 @@ function Profile() {
         e.preventDefault();
         try {
             dispatch(updateUserStart())
-            const res = await fetch(`/api/user/update/${currentUser._id}`, {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(formData)
-            })
+            const res = await updateUser(currentUser._id, formData)
             const data = await res.json()
             if (data.success === false) {
                 dispatch(updateUserFailure(data.message))
@@ -72,9 +65,7 @@ function Profile() {
     const handleDeleteUser = async () => {
         try {
             dispatch(deleteUserStart())
-            const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-                method: 'DELETE',
-            })
+            const res = await deleteUser(currentUser._id)
             const data = await res.json()
             if (data.success === false) {
                 dispatch(deleteUserFailure(data.message));
